@@ -2,13 +2,17 @@ require "bundler/inline"
 gemfile do
   source 'https://rubygems.org'
   # TODO: point to the right place
-  gem "app-common-ruby", path: "/Users/hsong/work/repos/app-common-ruby"
-  gem "byebug"
+  gem 'app-common-ruby', git: 'https://github.com/hsong-rh/app-common-ruby'
 end
 
 require 'ostruct'
 
-arg_config = ENV['ACG_CONFIG']
+arg_config = ENV.fetch('ACG_CONFIG')
+
+unless File.exist?(arg_config)
+  puts "ERROR: #{arg_config} does not exist"
+  exit 1
+end
 
 LoadedConfig = AppConfig.new(JSON.parse(File.read(arg_config)))
 puts "LoadedConfig: #{LoadedConfig}"
