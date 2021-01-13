@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+
+root_dir = File.expand_path("..", __dir__)
+Dir.chdir(root_dir) { require 'bundler/setup' }
+$LOAD_PATH << File.join(root_dir, "lib")
+
+require 'optparse'
+
+cmd_name = File.basename($PROGRAM_NAME)
+out = nil
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{cmd_name} [options]"
+
+  opts.on('-o', '--output-file ARG', 'Class definition file') do |value|
+    out = value
+  end
+
+  begin
+    opts.parse!(ARGV)
+  rescue OptionParser::ParseError => e
+    $stderr.puts cmd_name + ": " + e.message
+    $stderr.puts
+    $stderr.puts opts.to_s
+    exit 1
+  end
+end
+
+require 'app-common-ruby/smart_app_config'
+
+app = AppCommonRuby::SmartAppConfig.new
+app.load_config(ARGV[0])
+app.create_types(out)
