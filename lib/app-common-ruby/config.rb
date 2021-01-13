@@ -1,11 +1,5 @@
-require "bundler/inline"
-gemfile do
-  source 'https://rubygems.org'
-  # TODO: point to the right place
-  gem 'app-common-ruby', git: 'https://github.com/hsong-rh/app-common-ruby'
-end
-
 require 'ostruct'
+require_relative 'types'
 
 arg_config = ENV.fetch('ACG_CONFIG')
 

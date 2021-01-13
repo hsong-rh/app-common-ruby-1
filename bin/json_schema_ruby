@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 root_dir = File.expand_path("..", __dir__)
-Dir.chdir(root_dir) { require 'bundler/setup' }
-$LOAD_PATH << File.join(root_dir, "lib")
+$LOAD_PATH << File.join(root_dir, "bin")
 
 require 'optparse'
 
@@ -26,8 +25,8 @@ OptionParser.new do |opts|
   end
 end
 
-require 'app-common-ruby/smart_app_config'
+require 'ruby_class_converter'
 
-app = AppCommonRuby::SmartAppConfig.new
-app.load_config(ARGV[0])
-app.create_types(out)
+converter = RubyClassConverter.new
+converter.load_config(ARGV[0])
+converter.create_types(out)
